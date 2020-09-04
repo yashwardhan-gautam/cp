@@ -23,17 +23,29 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+
+
 int32_t main()
 {
 	fast();
-	int n;	cin >> n;
-	string s;	cin >> s;
-	int count = 0;
-	while (s.find("xxx") != string::npos)
+	int n, m;	cin >> n >> m;
+	vector<int> arr(n);
+	vector<int> q(m);
+	for (int i = 0; i < n; i++)	cin >> arr[i];
+	for (int i = 0; i < m; i++)	cin >> q[i];
+	vector<int> prefix;
+	prefix.push_back(0);
+	int sum = 0;
+	for (int i = 0; i < n; i++)
 	{
-		s.erase(s.begin() + s.find("xxx"));
-		count++;
+		sum += arr[i];
+		prefix.push_back(sum);
 	}
-	cout << count << endl;
+	for (int i = 0; i < m; i++)
+	{
+		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
+		int k = q[i] - prefix[f - 1];
+		cout << f << " " << k << endl;
+	}
 	return 0;
 }
