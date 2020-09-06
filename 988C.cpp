@@ -53,6 +53,7 @@ int32_t main()
 		for (int j = 0; j < n; j++)
 			t.push_back({sum - v[i][j], i, j});
 	}
+
 	sort(t.begin(), t.end(), compare);
 	return 0;
 }
