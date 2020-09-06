@@ -24,12 +24,22 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
+struct triplet {
+	int sum;
+	int seq;
+	int idx;
+	// sum of sequence seq without element at index 'idx'
+};
+bool compare(triplet a, triplet b)
+{
+	return a.sum < b.sum;
+}
 int32_t main()
 {
 	fast();
 	int k;	cin >> k;
-	vector<vector<pair<int, int> > > v(k);
+	vector<vector<int> > v(k);
+	vector<triplet> t;
 	for (int i = 0; i < k; i++)
 	{
 		int n;	cin >> n;
@@ -37,19 +47,12 @@ int32_t main()
 		int sum = 0;
 		for (int j = 0; j < n; j++)
 		{
-			cin >> v[i][j].first;
-			v[i][j].second = j;
-			sum += v[i][j].first;
+			cin >> v[i][j];
+			sum += v[i][j];
 		}
 		for (int j = 0; j < n; j++)
-			v[i][j].first = sum - v[i][j].first;
-		sort(v[i].begin(), v[i].end());
+			t.push_back({sum - v[i][j], i, j});
 	}
-	for (int i = 0; i < k; i++)
-	{
-		for (int j = 0; j < v[i].size(); j++)
-			cout << v[i][j].first << "," << v[i][j].second << " ";
-		cout << endl;
-	}
+	sort(t.begin(), t.end(), compare);
 	return 0;
 }
