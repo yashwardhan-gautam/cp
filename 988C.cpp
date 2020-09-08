@@ -53,7 +53,21 @@ int32_t main()
 		for (int j = 0; j < n; j++)
 			t.push_back({sum - v[i][j], i, j});
 	}
-
 	sort(t.begin(), t.end(), compare);
+	bool flag = false;
+	for (int i = 0; i < t.size() - 1; i++)
+	{
+		//cout << t[i].sum << " " << t[i].seq << " " << t[i].idx << endl;
+		if (t[i].sum == t[i + 1].sum and t[i].seq != t[i + 1].seq)
+		{
+			cout << "YES\n";
+			flag = true;
+			cout << t[i].seq + 1 << " " << t[i].idx + 1 << endl;
+			cout << t[i + 1].seq + 1 << " " << t[i + 1].idx + 1 << endl;
+			break;
+		}
+	}
+	if (!flag)
+		cout << "NO\n";
 	return 0;
 }
