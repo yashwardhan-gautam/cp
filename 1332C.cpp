@@ -1,3 +1,4 @@
+//https://codeforces.com/problemset/problem/1332/C
 #include<bits/stdc++.h>
 using namespace std;
 #define fi              first
@@ -64,6 +65,35 @@ public:
 int32_t main()
 {
 	fast();
-
+	int test;	cin >> test;
+	while (test--)
+	{
+		int n, k;	cin >> n >> k;
+		string s;	cin >> s;
+		dsu d(n);
+		for (int i = 0; i < n / 2; i++)
+			d.join(i, n - i - 1);
+		for (int i = 0; k + i < n; i++)
+			d.join(i, k + i);
+		vector<vector<int> > v(n + 1, vector<int> (26, 0));
+		for (int i = 0; i < n; i++)
+			v[d.get(i)][s[i] - 'a']++;
+		int ans = 0;
+		for (int i = 0; i < n; i++)
+		{
+			if (d.get(i) == i)
+			{
+				int sum = 0;
+				int ma = 0;
+				for (int j = 0; j < 26; j++)
+				{
+					sum += v[i][j];
+					ma = max(ma, v[i][j]);
+				}
+				ans += sum - ma;
+			}
+		}
+		cout << ans << endl;
+	}
 	return 0;
 }
