@@ -58,6 +58,33 @@ public:
 			cout << node << " ";
 		cout << endl;
 	}
+	void topological_sort_bfs()
+	{
+		unordered_map<T, int> indegree;
+		for (auto node : adj)
+			indegree[node.fi] = 0;
+		for (auto node : adj)
+		{
+			for (auto child : adj[node.fi])
+				indegree[child]++;
+		}
+		queue<T> q;
+		for (auto node : adj)
+			if (indegree[node.fi] == 0)
+				q.push(node.fi);
+		while (!q.empty())
+		{
+			T node = q.front();
+			q.pop();
+			cout << node << " ";
+			for (auto child : adj[node])
+			{
+				indegree[child]--;
+				if (indegree[child] == 0)
+					q.push(child);
+			}
+		}
+	}
 };
 int32_t main()
 {
@@ -71,5 +98,6 @@ int32_t main()
 		g.addEdge(x, y);
 	}
 	g.topological_sort_dfs();
+	g.topological_sort_bfs();
 	return 0;
 }
