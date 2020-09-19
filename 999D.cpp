@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -24,28 +24,41 @@ void fast()
 #endif
 }
 
-
 int32_t main()
 {
 	fast();
 	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
+	vector<int> a(n);
+	vector<int> g[m];
 	for (int i = 0; i < n; i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		cin >> a[i];
+		g[a[i] % m].pb(i);
 	}
-	for (int i = 0; i < m; i++)
+	int k = n / m;
+	vector<pii> v;
+	int ans = 0;
+	for (int i = 0; i <= 2 * m; i++)
 	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
+		int curr = i % m;
+		while (g[curr].size() > k)
+		{
+			v.pb({g[curr].back(), curr});
+			g[curr].pop_back();
+		}
+		while (g[curr].size()<k and v.size()>0)
+		{
+			pii p = v.back();
+			v.pop_back();
+			int inc = (curr - p.se + m) % m;
+			ans += inc;
+			a[p.fi] += inc;
+			g[curr].pb(p.fi);
+		}
 	}
+	cout << ans << endl;
+	for (int i = 0; i < n; i++)
+		cout << a[i] << " ";
+	cout << endl;
 	return 0;
 }

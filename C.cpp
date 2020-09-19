@@ -23,29 +23,36 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+int n;
+vector<vector<int> > points;
+vector<vector<int> > dp;
+int solve(int index, int activity)
+{
+	if (index == n)
+		return 0;
 
-
+	if (dp[index][activity] != -1)
+		return dp[index][activity];
+	int ans = points[index][activity];
+	if (activity == 0)
+		ans += max(solve(index + 1, 1), solve(index + 1, 2));
+	else if (activity == 1)
+		ans += max(solve(index + 1, 0), solve(index + 1, 2));
+	else if (activity == 2)
+		ans += max(solve(index + 1, 0), solve(index + 1, 1));
+	return dp[index][activity] = ans;
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
+	cin >> n;
+	points.resize(n, vector<int> (3));
 	for (int i = 0; i < n; i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		for (int j = 0; j < 3; j++)
+			cin >> points[i][j];
 	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	dp.resize(n, vector<int> (3, -1));
+	cout << max(solve(0, 0), max(solve(0, 1), solve(0, 2)));
 	return 0;
 }

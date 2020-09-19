@@ -18,34 +18,54 @@ using namespace std;
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-#endif
+	#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+	#endif
 }
-
-
+struct sub
+{
+	int m;
+	int b;
+};
+bool compare(sub s1,sub s2)
+{
+	if(s1.b==s2.b)	return s1.m<s2.m;
+	else 			return s1.b<s2.b;
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
+	int n,r,a;	cin>>n>>r>>a;
+	a=a*n;
+	vector<sub> v(n);
+	int ans=0;
+	for(int i=0;i<n;i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		cin>>v[i].m>>v[i].b;
+		ans+=v[i].m;
 	}
-	for (int i = 0; i < m; i++)
+	sort(v.begin(),v.end(),compare);
+i	nt count=0;
+	int flag=0;
+	for(int i=0;i<n;i++)
 	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
+		if(v[i].m<r and ans<a)
+		{
+			if(ans+r-v[i].m>a)
+			{
+				count+=(a-ans)*v[i].b;
+				flag=1;
+				break;
+			}
+			else 
+			{
+				ans+=(r-v[i].m);
+				count+=(r-v[i].m)*v[i].b;
+			}
+		}
+		if(flag)	break;
 	}
+	cout<<count<<" "<<endl;
 	return 0;
 }

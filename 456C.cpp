@@ -24,28 +24,43 @@ void fast()
 #endif
 }
 
+int n;
+vector<pair<int, int> > v;
+vector<int> dp;
 
+int solve(int index)
+{
+	if (index >= v.size())
+		return 0;
+	if (dp[index] != -1)
+		return dp[index];
+	int op1 = INT_MIN, op2 = INT_MIN;
+	if (index < v.size() - 1 and v[index + 1].first == v[index].first + 1)
+		op1 = v[index].first * v[index].second + solve(index + 2);
+	else
+		op1 = v[index].first * v[index].second + solve(index + 1);
+	op2 = 0 + solve(index + 1);
+	return dp[index] = max(op1, op2);
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
+	cin >> n;
+	unordered_map<int, int> m;
 	for (int i = 0; i < n; i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		int t;	cin >> t;
+		m[t]++;
 	}
-	for (int i = 0; i < m; i++)
+	for (auto x : m)
 	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
+		pair<int, int> t;
+		t.first = x.first;
+		t.second = x.second;
+		v.pb(t);
 	}
+	sort(v.begin(), v.end());
+	dp.resize(v.size(), -1);
+	cout << solve(0);
 	return 0;
 }

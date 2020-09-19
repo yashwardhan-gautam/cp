@@ -23,29 +23,27 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
-
+int n, m;
+vector<int> a;
+vector<int> b;
+int solve(int i, int j)
+{
+	if (i == n or j == m)
+		return 0;
+	if (a[i] == b[j])
+	{
+		//cout << i << " " << j << endl;
+		return 1 + solve(i + 1, j + 1);
+	}
+	return max(solve(i, j + 1), solve(i + 1, j));
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	cin >> n >> m;
+	a.resize(n), b.resize(m);
+	for (int i = 0; i < n; i++)	cin >> a[i];
+	for (int i = 0; i < m; i++)	cin >> b[i];
+	cout << solve(0, 0) << endl;
 	return 0;
 }

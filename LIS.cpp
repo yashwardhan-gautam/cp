@@ -24,28 +24,28 @@ void fast()
 #endif
 }
 
-
+int LIS(vector<int> arr)
+{
+	int n = arr.size();
+	vector<int> dp(n, 1);
+	for (int i = 1; i < n; i++)
+	{
+		for (int j = 0; j < i; j++)
+		{
+			if (arr[j] < arr[i])
+			{
+				dp[i] = max(dp[i], dp[j] + 1);
+			}
+		}
+	}
+	return dp[n - 1];
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
+	int n;	cin >> n;
 	vector<int> arr(n);
-	vector<int> q(m);
 	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	cout << LIS(arr) << endl;
 	return 0;
 }

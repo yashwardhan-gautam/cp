@@ -24,28 +24,25 @@ void fast()
 #endif
 }
 
+void permutations(string s, int i)
+{
+	if (i == s.size())
+	{
+		cout << s << endl;
+		return  ;
+	}
 
+	for (int j = i; j < s.size(); j++)
+	{
+		swap(s[i], s[j]);
+		permutations(s, i + 1);
+		swap(s[i], s[j]);
+	}
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	string s;	cin >> s;
+	permutations(s, 0);
 	return 0;
 }

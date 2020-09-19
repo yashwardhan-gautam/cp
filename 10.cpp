@@ -25,27 +25,29 @@ void fast()
 }
 
 
+bool solve(string s, string p, int i, int j)
+{
+	cout << i << " " << j << endl;
+	if (j == p.size())
+		return (i == s.size());
+	bool first = (i < s.size() and (s[i] == p[j] or p[j] == '.'));
+	bool ans = false;
+	if (j + 1 < p.size() and p[j + 1] == '*')
+		ans = ((first and solve(s, p, i + 1, j)) or solve(s, p, i, j + 2));
+	else
+		ans = (first and solve(s, p, i + 1, j + 1));
+	return ans;
+}
+bool isMatch(string s, string p) {
+	return solve(s, p, 0, 0);
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	string s, p;	cin >> s >> p;
+	if (isMatch(s, p))
+		cout << "true\n";
+	else
+		cout << "false\n";
 	return 0;
 }

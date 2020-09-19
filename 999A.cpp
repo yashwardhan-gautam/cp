@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -24,28 +24,29 @@ void fast()
 #endif
 }
 
-
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
+	int n, k;	cin >> n >> k;
+	vector<int>v(n);
+	for (int i = 0; i < n; i++)	cin >> v[i];
+	int l = 0, r = n - 1;
+	int ans = 0;
+	while (l <= r)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		if (l < n and v[l] <= k)
+		{
+			ans++;
+			l++;
+		}
+		else if (r >= 0 and v[r] <= k)
+		{
+			ans++;
+			r--;
+		}
+		if (l<n and v[l]>k and r >= 0 and v[r] > k)
+			break;
 	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	cout << ans << endl;
 	return 0;
 }

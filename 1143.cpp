@@ -23,29 +23,26 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
+int longestCommonSubsequence(string text1, string text2) {
+	vector<vector<int> > dp(text1.size() + 1, vector<int> (text2.size() + 1, 0));
+	for (int i = 1; i <= text1.size(); i++)
+	{
+		for (int j = 1; j <= text2.size(); j++)
+		{
+			if (text1[i - 1] == text2[j - 1])
+				dp[i][j] = 1 + dp[i - 1][j - 1];
+			else
+				dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+		}
+	}
+	return dp[text1.size()][text2.size()];
+}
 
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	string s1, s2;	cin >> s1 >> s2;
+	cout << longestCommonSubsequence(s1, s2);
 	return 0;
+
 }

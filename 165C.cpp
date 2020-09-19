@@ -24,28 +24,24 @@ void fast()
 #endif
 }
 
-
+int k;
+string s;
+vector<int> dp;
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
+	cin >> k >> s;
+	dp.resize(s.size() + 1, 0);
+	dp[0] = 1;
+	int sum_till_now = 0;
+	int ans = 0;
+	for (int i = 0; i < s.size(); i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		sum_till_now += s[i] - '0';
+		if (sum_till_now >= k)
+			ans += dp[sum_till_now - k];
+		dp[sum_till_now]++;
 	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	cout << ans;
 	return 0;
 }

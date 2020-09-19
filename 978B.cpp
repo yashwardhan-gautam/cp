@@ -23,6 +23,8 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+
+
 int32_t main()
 {
 	fast();
@@ -33,6 +35,7 @@ int32_t main()
 	{
 		s.erase(s.begin() + s.find("xxx"));
 		count++;
+		//cout << s << endl;
 	}
 	cout << count << endl;
 	return 0;

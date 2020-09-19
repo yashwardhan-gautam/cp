@@ -23,29 +23,41 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+int solve(int i, int sum, vector<int> coins, int amount, vector<vector<int>  > &dp)
+{
+	if (sum == amount)
+		return 0;
+	if (i == coins.size())
+	{
+		if (sum == amount)
+			return 0;
+		return INT_MAX;
+	}
+	if (sum > amount)
+		return INT_MAX;
+	if (dp[i][sum] != -1)
+		return dp[i][sum];
+	int op1 = 1 + solve(i, sum + coins[i], coins, amount, dp);
+	int op2 = 0 + solve(i + 1, sum, coins, amount, dp);
+	return dp[i][sum] = min(op1, op2);
 
+}
+int coinChange(vector<int> coins, int amount)
+{
+	vector<vector<int> > dp(coins.size() + 1, vector<int> (amount + 1, -1));
+	int ans = solve(0, 0, coins, amount, dp);
+	if (ans == INT_MAX)
+		return -1;
+	else
+		return ans;
+}
 
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	int n, amount;	cin >> n >> amount;
+	vector<int> coins(n);
+	for (int i = 0; i < n; i++)	cin >> coins[i];
+	cout << coinChange(coins, amount);
 	return 0;
 }

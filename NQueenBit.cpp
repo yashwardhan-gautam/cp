@@ -15,37 +15,35 @@ using namespace std;
 #define mod             1000000007
 #define inf             1e18
 #define endl			"\n"
+int DONE;
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-#endif
 }
 
-
+int ans;
+void NQueen(int col, int ld, int rd, int n)
+{
+	if (col == DONE)
+	{
+		ans++;
+		return ;
+	}
+	int remaining_columns = DONE & (~(col | ld | rd));
+	while (remaining_columns > 0)
+	{
+		int pos = remaining_columns & (~remaining_columns);
+		remaining_columns -= pos;
+		NQueen(col | pos, (ld | pos) << 1 , (rd | pos) >> 1, n);
+	}
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	int n;	cin >> n;
+	DONE = (1 << n) - 1;
+	cout << DONE << endl;
+	NQueen(0, 0, 0, n);
+	cout << ans << endl;
 	return 0;
 }

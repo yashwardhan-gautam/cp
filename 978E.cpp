@@ -28,24 +28,19 @@ void fast()
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
+	int n, w;	cin >> n >> w;
+	vector<int> v(n);
+	for (int i = 0; i < n; i++)
+		cin >> v[i];
+	int mi = INT_MIN;
+	int ma = INT_MAX;
 	int sum = 0;
 	for (int i = 0; i < n; i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		sum += v[i];
+		mi = max(mi, -1 * sum);
+		ma = min(ma, w - sum);
 	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	cout << ma << " " << mi << endl;
 	return 0;
 }

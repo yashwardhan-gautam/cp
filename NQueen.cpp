@@ -24,28 +24,31 @@ void fast()
 #endif
 }
 
+int ans = 0;
+bitset<30> col, rd, ld;
+void NQueen(int i,  int n)
+{
+	if (i == n)
+	{
+		ans++;
+		return ;
+	}
+	for (int j = 0; j < n; j++)
+	{
+		if (!col[j] and !rd[i + j] and !ld[j - i + n - 1])
+		{
+			col[j] = rd[i + j] = ld[j - i + n - 1] = 1;
+			NQueen(i + 1, n);
+			col[j] = rd[i + j] = ld[j - i + n - 1] = 0;
+		}
+	}
+}
 
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	int n;	cin >> n;
+	NQueen(0, n);
+	cout << ans << endl;
 	return 0;
 }

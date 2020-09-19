@@ -23,29 +23,45 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+int n, capacity;
+int dp[101][100001];
+vector<int> w, v;
 
-
+int solve(int max_profit)
+{
+	for (int i = 0; i <= n; i++)
+	{
+		for (int j = 0; j <= max_profit; j++)
+		{
+			if (i == 0 and j == 0)
+				dp[i][j] = 0;
+			else if (i == 0)
+				dp[i][j] = inf;
+			else if (v[i - 1] <= j)
+				dp[i][j] = min(w[i - 1] + dp[i - 1][j - v[i - 1]], dp[i - 1][j]);
+			else
+				dp[i][j] = dp[i - 1][j];
+		}
+	}
+	int ans = 0;
+	for (int j = 0; j <= max_profit; j++)
+	{
+		if (dp[n][j] <= capacity)
+			ans = j;
+	}
+	return ans;
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
+	cin >> n >> capacity;
+	w.resize(n);	v.resize(n);
+	int max_profit = 0;
 	for (int i = 0; i < n; i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		cin >> w[i] >> v[i];
+		max_profit += v[i];
 	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	cout << solve(max_profit);
 	return 0;
 }

@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -23,29 +23,34 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
-
+void print_temp(vector<int> v)
+{
+	for (int i = 0; i < v.size(); i++)
+		cout << v[i] << " ";
+	cout << endl;
+}
+vector<int> countSmaller(vector<int>& nums) {
+	vector <int> ans;
+	vector <int> temp;
+	for (int i = nums.size() - 1; i >= 0; i--)
+	{
+		int ind = lower_bound(temp.begin(), temp.end(), nums[i]) - temp.begin();
+		temp.insert(temp.begin() + ind, nums[i]);
+		print_temp(temp);
+		ans.insert(ans.begin(), ind);
+	}
+	//reverse(ans.begin(), ans.end());
+	return ans;
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	int n;	cin >> n;
+	vector<int> nums(n);
+	for (int i = 0; i < nums.size(); i++)
+		cin >> nums[i];
+	vector<int> ans = countSmaller(nums);
+	for (int i = 0; i < ans.size(); i++)
+		cout << ans[i] << " ";
 	return 0;
 }

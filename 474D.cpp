@@ -24,28 +24,43 @@ void fast()
 #endif
 }
 
-
+int k;
+vector<int> a, b;
+vector<int> dp;
+int solve(int len)
+{
+	if (len == 0)
+		return dp[len] = 1;
+	if (dp[len] != -1)
+		return dp[len];
+	int op1 = 0, op2 = 0;
+	op1 = solve(len - 1);
+	if (len - k >= 0)
+		op2 = solve(len - k);
+	return dp[len] = (op1 % mod + op2 % mod) % mod;
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
+	int test;	cin >> test >> k;
+	a.resize(test);
+	b.resize(test);
+	int bmax = 0;
+	for (int i = 0; i < test; i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		cin >> a[i] >> b[i];
+		bmax = max(bmax, b[i]);
 	}
-	for (int i = 0; i < m; i++)
+	bmax = bmax;
+	dp.resize(bmax + 1, -1);
+	solve(bmax);
+	vector<int> pre(dp);
+	for (int i = 1; i < pre.size(); i++)
 	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
+		pre[i] += pre[i - 1] % mod;
+		pre[i] = pre[i] % mod;
 	}
+	for (int i = 0; i < test; i++)
+		cout << (pre[b[i]] % mod - pre[a[i] - 1] % mod + mod) % mod << endl;
 	return 0;
 }

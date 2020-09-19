@@ -23,29 +23,28 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
-
+// this function returs gcd
+int eea(int a, int b, int &x, int &y)
+{
+	if (b == 0)
+	{
+		x = 1, y = 0;
+		cout << a << " " << b << ":" << x << " " << y << " " << endl;
+		return a;
+	}
+	int x1, y1;
+	int ans = eea(b, a % b, x1, y1);
+	x = y1;
+	y = x1 - (a / b) * y1;
+	cout << a << " " << b << ":" << x << " " << y << endl;
+	return ans;
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	int a, b;	cin >> a >> b;
+	int x, y;
+	cout << eea(a, b, x, y) << endl;
+	cout << x << " " << y << endl;
 	return 0;
 }

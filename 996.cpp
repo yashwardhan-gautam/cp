@@ -23,29 +23,41 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+set<vector<int> > st;
+void solve(vector<int> &A, int n, int start)
+{
+	if (start > 1)
+	{
+		int temp = sqrt(A[start - 1] + A[start - 2]);
+		if (A[start - 1] + A[start - 2] != temp * temp)
+			return ;
+	}
+	if (start == n)
+	{
+		for (int i = 0; i < A.size(); i++)
+			cout << A[i] << " ";	cout << endl;
+		st.insert(A);
+		return ;
+	}
+	for (int j = start; j < A.size(); j++)
+	{
+		if (start == j or A[start] != A[j])
+		{
+			swap(A[start], A[j]);
+			solve(A, n, start + 1);
+			swap(A[start], A[j]);
+		}
+	}
 
-
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	int n;	cin >> n;
+	vector<int> A(n);
+	for (int i = 0; i < n; i++)	cin >> A[i];
+	sort(A.begin(), A.end());
+	solve(A, n, 0);
+	cout << st.size();
 	return 0;
 }

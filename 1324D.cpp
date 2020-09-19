@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define fi              first
-#define se              second
+#define ff              first
+#define ss              second
 #define int             long long
 #define pb              push_back
 #define mp              make_pair
@@ -14,35 +14,44 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-#endif
 }
-
 
 int32_t main()
 {
 	fast();
-	int n;	cin >> n;
-	vector<int> arr(n);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	unordered_set<int> s;
-	vector<int> res;
-	for (int i = n - 1; i >= 0; i--)
+	int n;	cin>>n;
+	vi a(n),b(n);
+	vector<int> v;
+	for(int i=0;i<n;i++)	cin>>a[i];
+	for(int i=0;i<n;i++)	cin>>b[i];
+	int c[n];
+	for(int i=0;i<n;i++)	c[i]=a[i]-b[i];
+	sort(c,c+n);
+	//cout<<endl;
+	//for(int i=0;i<n;i++)	cout<<c[i]<<" ";	cout<<endl; 
+	int ans=0;
+	for(int i=0;i<n;i++)
 	{
-		if (s.find(arr[i]) == s.end())
+		/*for(int j=i+1;j<n;j++)
 		{
-			s.insert(arr[i]);
-			res.insert(res.begin(), arr[i]);
+			if(c[i]>-1*c[j])
+			{
+				auto it=upper_bound(c+i+1,c+n,-c[i]);
+				int id=it-c;
+				cout<<id<<"\n";
+				cout<<c[i]<<" "<<c[j]<<endl;
+			}
 		}
+		cout<<endl;*/
+		auto it=upper_bound(c+i+1,c+n,-c[i]);
+		int id=it-c;
+		ans+=n-id;
 	}
-	cout << res.size() << endl;
-	for (int i = 0; i < res.size(); i++)
-		cout << res[i] << " ";	cout << endl;
+
+	cout<<ans<<"\n";
 	return 0;
 }
+

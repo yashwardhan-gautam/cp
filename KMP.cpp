@@ -24,28 +24,52 @@ void fast()
 #endif
 }
 
-
+void KMP(string s, string p)
+{
+	vector<int> table(p.size(), 0);
+	int i = 1, j = 0;
+	int lp = p.size();
+	int ls = s.size();
+	while (i < lp)
+	{
+		while (j > 0 and p[i] != p[j])
+		{
+			j = table[j - 1];
+		}
+		if (p[i] == p[j])
+		{
+			table[i] = j + 1;
+			i++;
+			j++;
+		}
+		else
+			i++;
+	}
+	for (int i = 0; i < table.size(); i++)	cout << table[i] << " ";	cout << endl;
+	i = 0, j = 0;
+	while (i < ls)
+	{
+		while (j > 0 and s[i] != p[j])
+			j = table[j - 1];
+		if (s[i] == p[j])
+		{
+			i++;
+			j++;
+		}
+		else
+			i++;
+		if (j == lp)
+		{
+			cout << "Pattern found at " << i - j << endl;
+			j = table[j - 1];
+		}
+	}
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	string s;	cin >> s;
+	string p;	cin >> p;
+	KMP(s, p);
 	return 0;
 }

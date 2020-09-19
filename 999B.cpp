@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -24,28 +24,20 @@ void fast()
 #endif
 }
 
-
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
+	int n;	cin >> n;
+	string s;	cin >> s;
+	vector<int> v;
+	for (int i = 2; i <= n; i++)
+		if (n % i == 0)
+			v.pb(i);
+	for (int i = 0; i < v.size(); i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		reverse(s.begin(), s.begin() + v[i]);
+		//cout << s << endl;
 	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	cout << s << endl;
 	return 0;
 }

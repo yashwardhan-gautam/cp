@@ -23,29 +23,30 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
-
+string s;
+vector<vector<int> > dp;
+int solve(int i, int j, string s)
+{
+	if (i > j)
+		return 0;
+	if (dp[i][j] != -1)
+		return dp[i][j];
+	int ans = solve(i + 1, j, s) + 1;
+	for (int k = i + 1; k <= j; k++)
+	{
+		if (s[i] == s[k])
+		{
+			ans = min(ans, solve(i, k - 1, s) + solve(k + 1, j, s));
+		}
+	}
+	return dp[i][j] = ans;
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	cin >> s;
+	int n = s.size();
+	dp.resize(n + 1, vector<int> (n + 1, -1));
+	cout << solve(0, n - 1, s);
 	return 0;
 }

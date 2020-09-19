@@ -24,28 +24,29 @@ void fast()
 #endif
 }
 
-
+void generate_parenthesis(string s, int n, int i, int open, int close)
+{
+	if (i == 2 * n)
+	{
+		cout << s << endl;
+		return ;
+	}
+	if (open < n)
+	{
+		s += '(';
+		generate_parenthesis(s, n, i + 1, open + 1, close);
+	}
+	if (open > close)
+	{
+		s += ')';
+		generate_parenthesis(s, n, i + 1, open + 1, close);
+	}
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	int n;	cin >> n;
+	string s;
+	generate_parenthesis(s, n, 0, 0, 0);
 	return 0;
 }

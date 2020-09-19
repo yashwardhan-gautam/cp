@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define fi              first
-#define se              second
+#define ff              first
+#define ss              second
 #define int             long long
 #define pb              push_back
 #define mp              make_pair
@@ -14,35 +14,42 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-#endif
 }
-
-
-int32_t main()
+#define limit 1000000
+int prime[limit];
+void is_prime()
 {
-	fast();
-	int n;	cin >> n;
-	vector<int> arr(n);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	unordered_set<int> s;
-	vector<int> res;
-	for (int i = n - 1; i >= 0; i--)
+	prime[0]=prime[1]=1;
+	for(int i=2;i<limit;i++)
 	{
-		if (s.find(arr[i]) == s.end())
+		if(prime[i]==0)
 		{
-			s.insert(arr[i]);
-			res.insert(res.begin(), arr[i]);
+			for(int j=i*i;j<limit;j+=i)
+				prime[j]=1;
 		}
 	}
-	cout << res.size() << endl;
-	for (int i = 0; i < res.size(); i++)
-		cout << res[i] << " ";	cout << endl;
+}
+bool solve(int n)
+{
+	double sq=sqrt(n);
+	if(sq==(int) sq)
+		return true;
+	return false;
+}
+int32_t main()
+{
+	is_prime();
+	int test;	cin>>test;
+	while(test--)
+	{
+		int n;	cin>>n;
+		if(n==4)	cout<<"YES\n";
+		else if(n%2==0)	cout<<"NO\n";
+		else if(solve(n) and prime[(int)(sqrt(n))]==0)	cout<<"YES\n";
+		else 	cout<<"NO\n";
+	}
 	return 0;
 }

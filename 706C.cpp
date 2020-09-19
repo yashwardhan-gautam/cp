@@ -23,29 +23,41 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
-
+int n;
+vector<vector<string> > s;
+vector<int> c;
+vector<vector<int> > dp;
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
+	cin >> n;
+	c.resize(n + 1);
+	for (int i = 1; i <= n; i++)	cin >> c[i];
+	s.resize(n + 1, vector<string> (2));
+	for (int i = 1; i <= n; i++)
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		cin >> s[i][0];
+		s[i][1] = s[i][0];
+		reverse(s[i][1].begin(), s[i][1].end());
 	}
-	for (int i = 0; i < m; i++)
+	dp.resize(n + 1, vector<int> (2, -1));
+	dp[1][0] = 0;
+	dp[1][1] = c[1];
+	for (int i = 2; i <= n; i++)
 	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
+		dp[i][0] = dp[i][1] = inf;
+		if (s[i][0] >= s[i - 1][0])
+			dp[i][0] = min(dp[i][0], dp[i - 1][0]);
+		if (s[i][0] >= s[i - 1][1])
+			dp[i][0] = min(dp[i][0], dp[i - 1][1]);
+		if (s[i][1] >= s[i - 1][0])
+			dp[i][1] = min(dp[i][1], dp[i - 1][0] + c[i]);
+		if (s[i][1] >= s[i - 1][1])
+			dp[i][1] = min(dp[i][1], dp[i - 1][1] + c[i]);
 	}
+	int ans = min(dp[n][0], dp[n][1]);
+	if (ans == inf)
+		ans = -1;
+	cout << ans;
 	return 0;
 }

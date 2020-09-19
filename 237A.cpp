@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define fi              first
-#define se              second
+#define ff              first
+#define ss              second
 #define int             long long
 #define pb              push_back
 #define mp              make_pair
@@ -14,35 +14,37 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-#endif
 }
-
-
+struct temp
+{
+	int h,m;
+};
 int32_t main()
 {
 	fast();
-	int n;	cin >> n;
-	vector<int> arr(n);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	unordered_set<int> s;
-	vector<int> res;
-	for (int i = n - 1; i >= 0; i--)
+	int n;	cin>>n;
+	vector<pair<int,int> > v(n);
+	for(int i=0;i<n;i++)
+		cin>>v[i].first>>v[i].second;
+	int ans=1;
+	for(int i=0;i<n;)
 	{
-		if (s.find(arr[i]) == s.end())
+		//cout<<v[i].first<<" "<<v[i].second<<"-";
+		int index=i+1;
+		while(index<n and v[i]==v[index])	
 		{
-			s.insert(arr[i]);
-			res.insert(res.begin(), arr[i]);
+			//cout<<v[index].first<<" "<<v[index].second<<",";
+			index++;
 		}
+		ans=max(ans,index-i);
+		//cout<<"ans"<< index-i<<" ";
+		i=index;
+		//cout<<endl;
 	}
-	cout << res.size() << endl;
-	for (int i = 0; i < res.size(); i++)
-		cout << res[i] << " ";	cout << endl;
+	cout<<ans<<"\n";
 	return 0;
 }
+

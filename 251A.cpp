@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define fi              first
-#define se              second
+#define ff              first
+#define ss              second
 #define int             long long
 #define pb              push_back
 #define mp              make_pair
@@ -14,35 +14,43 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-#endif
 }
-
 
 int32_t main()
 {
 	fast();
-	int n;	cin >> n;
-	vector<int> arr(n);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	unordered_set<int> s;
-	vector<int> res;
-	for (int i = n - 1; i >= 0; i--)
+	int n,d;	cin>>n>>d;
+	vi v(n);
+	for(int i=0;i<n;i++)	cin>>v[i];
+	int r=0;
+	int ans=0;
+	for(int l=0;l<n-1;l++)
 	{
-		if (s.find(arr[i]) == s.end())
-		{
-			s.insert(arr[i]);
-			res.insert(res.begin(), arr[i]);
-		}
+		while(r<n and v[r]-v[l]<=d) r++;
+		r--;
+		int t=r-l;
+		ans+=((t)*(t-1))/2;
 	}
-	cout << res.size() << endl;
-	for (int i = 0; i < res.size(); i++)
-		cout << res[i] << " ";	cout << endl;
+	cout<<ans<<"\n";
 	return 0;
 }
+
+
+/*
+M E T 5 E U Y 5
+
+
+*/
+
+/*
+m e t5 e uy 5
+e t5 w r m
+m e t5 e m w 2 q
+
+Bb = jwt
+
+
+*/

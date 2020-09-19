@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -23,29 +23,47 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
-
+bool possible(int m, int s)
+{
+	return ((s >= 0) and (s <= 9 * m));
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
+	int m, s;	cin >> m >> s;
+	string min, max;
+	int sum = s;
+	if ((s <= 0 and m > 1) or (s > 9 * m))
 	{
-		sum += arr[i];
-		prefix.push_back(sum);
+		cout << "-1 -1";
+		return 0;
 	}
-	for (int i = 0; i < m; i++)
+
+	for (int pos = 0; pos < m; pos++)
 	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
+		for (int digit = 0; digit <= 9; digit++)
+		{
+			if ((pos > 0 or digit > 0 or (m == 1 and digit == 0)) and possible(m - pos - 1, sum - digit))
+			{
+				min += ('0' + digit);
+				sum -= digit;
+				break;
+			}
+		}
 	}
+	sum = s;
+	for (int pos = 0; pos < m; pos++)
+	{
+		for (int digit = 9; digit >= 0; digit--)
+		{
+			if (possible(m - pos - 1, sum - digit))
+			{
+				max += ('0' + digit);
+				sum -= digit;
+				break;
+			}
+		}
+	}
+	cout << min << " " << max ;
 	return 0;
 }

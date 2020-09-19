@@ -24,28 +24,30 @@ void fast()
 #endif
 }
 
+int n, m, k;
+vector<int> arr;
+int dp[5001][5001];
 
+int solve(int index, int count)
+{
+	if (index > n - m or count == k)
+		return 0;
+	if (dp[index][count] != -1)
+		return dp[index][count];
+	int op1 = 0, op2 = 0;
+	for (int j = index; j < index + m; j++)
+		op1 += arr[j];
+	op1 += solve(index + m, count + 1);
+	op2 = solve(index + 1, count);
+	return dp[index][count] = max(op1, op2);
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
+	cin >> n >> m >> k;
+	arr.resize(n);
 	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	memset(dp, -1, sizeof(dp));
+	cout << solve(0, 0);
 	return 0;
 }

@@ -25,27 +25,21 @@ void fast()
 }
 
 
+int solve(int n, int k)
+{
+	if (n < 0)
+		return 0;
+	if (n == 0)
+		return 1;
+	int ans = 0;
+	for (int i = 1; i < ja = k; i++)
+		ans += solve(n - i, k);
+	return ans;
+}
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	int n, k;	cin >> n >> k;
+	cout << solve(n, k) << endl;
 	return 0;
 }

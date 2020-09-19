@@ -24,28 +24,29 @@ void fast()
 #endif
 }
 
+int solve(int W, vector<int> w, vector<int> v, int i, vector<vector<int> > &dp)
+{
+	// Base cases
+	if (i < 0)
+		return 0;
+	if (dp[i][W] != -1)
+		return dp[i][W];
+
+	return dp[i][W];
+	if (w[i] > W)
+		return dp[i][W] = solve(W, w, v, i - 1, dp);
+
+	else
+		return dp[i][W] = max(v[i] + solve(W - w[i], w, v, i - 1, dp), solve(W, w, v, i - 1, dp));
+}
 
 int32_t main()
 {
 	fast();
-	int n, m;	cin >> n >> m;
-	vector<int> arr(n);
-	vector<int> q(m);
-	for (int i = 0; i < n; i++)	cin >> arr[i];
-	for (int i = 0; i < m; i++)	cin >> q[i];
-	vector<int> prefix;
-	prefix.push_back(0);
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += arr[i];
-		prefix.push_back(sum);
-	}
-	for (int i = 0; i < m; i++)
-	{
-		int f = lower_bound(prefix.begin(), prefix.end(), q[i]) - prefix.begin() ;
-		int k = q[i] - prefix[f - 1];
-		cout << f << " " << k << endl;
-	}
+	int n, W;	cin >> n >> W;
+	vector<int> w(n), v(n);
+	for (int i = 0; i < n; i++)	cin >> w[i] >> v[i];
+	vector<vector<int> > dp(n + 1, vector<int> (W + 1, -1));
+	cout << solve(W, w, v, n - 1, dp);
 	return 0;
 }
