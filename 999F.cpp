@@ -1,4 +1,5 @@
-// https://codeforces.com/contest/999/problem/E
+// https://codeforces.com/contest/999/problem/F
+// Top Down approach
 #include<bits/stdc++.h>
 using namespace std;
 #define fi              first
@@ -16,6 +17,7 @@ using namespace std;
 #define mod             1000000007
 #define inf             1e18
 #define endl		 	      "\n"
+const int N = 1e5 + 5;
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -24,56 +26,47 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-int n, m, s, cnt;
-vector<int> adj[5050];
-int final_vis[5050];
-int vis[5050];
-void dfs1(int s)
+int n, k;
+int freq[N];
+int people[N];
+int h[N];
+int solve(int cards, int people, vector<vector<int> > &dp)
 {
-	final_vis[s] = true;
-	for (int i = 0; i < adj[s].size(); i++)
-		if (!final_vis[adj[s][i]])
-			dfs1(adj[s][i]);
-}
-void dfs2(int s)
-{
-	vis[s] = true;
-	cnt++;
-	for (auto child : adj[s])
-		if (!vis[child] and !final_vis[child])
-			dfs2(child);
+	if (cards == 0 or people == 0)
+		return 0;
+	if (dp[cards][people] != -1)
+		return dp[cards][people];
+	int ans = 0;
+	for (int i = 1; i <= min(cards, k); i++)
+	{
+		ans = max(ans, h[i] + solve(cards - i, people - 1, dp));
+	}
+	return dp[cards][people] = ans;
 }
 int32_t main()
 {
 	fast();
-	cin >> n >> m >> s;
-	for (int i = 0; i < m; i++)
+	cin >> n >> k;
+	for (int i = 1; i <= n * k; i++)
 	{
-		int u, v;	cin >> u >> v;
-		adj[u].pb(v);
+		int t;	cin >> t;
+		freq[t]++;
 	}
-	dfs1(s);
-	vector<pii> v;
 	for (int i = 1; i <= n; i++)
 	{
-		if (!final_vis[i])
-		{
-			cnt = 0;
-			memset(vis, false, sizeof(vis));
-			dfs2(i);
-			v.pb({cnt, i});
-		}
+		int t;	cin >> t;
+		people[t]++;
 	}
-	sort(v.begin(), v.end());
-	reverse(v.begin(), v.end());
+	for (int i = 1; i <= k; i++)
+		cin >> h[i];
 	int ans = 0;
-	for (auto it : v)
+	for (int i = 1; i <= 1e5; i++)
 	{
-		if (!final_vis[it.se])
-		{
-			ans++;
-			dfs1(it.se);
-		}
+		if (!people[i] or !freq[i])
+			continue;
+		vector<vector<int> > dp(freq[i] + 1, vector<int> (people[i] + 1, -1));
+		//cout << freq[i] << " " << people[i] << endl;
+		ans += solve(freq[i], people[i], dp);
 	}
 	cout << ans << endl;
 	return 0;
