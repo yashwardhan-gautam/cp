@@ -26,29 +26,38 @@ void fast()
 
 int n, ans = 0;
 string a, b;
-
+int solve(int i)
+{
+	map <char, int> m;
+	m[a[i]]++;
+	m[a[n - i - 1]]++;
+	m[b[i]]++;
+	m[b[n - 1 - i]]++;
+	if (m.size() == 1)
+		return 0;
+	if (m.size() == 2)
+	{
+		for (auto it = m.begin(); it != m.end(); it++)
+		{
+			if (it->second == 2)
+				return 0;
+			else
+				return 1;
+		}
+	}
+	if (m.size() == 4)
+		return 2;
+	if (a[i] == a[n - 1 - i])
+		return 2;
+	return 1;
+}
 int32_t main()
 {
 	fast();
 	cin >> n >> a >> b;
 	for (int i = 0; i < n / 2; i++)
 	{
-		map<char, int> m;
-		if (b[i] == b[n - 1 - i])
-		{
-			if (a[i] != a[n - 1 - i])
-				ans++;
-		}
-		else
-		{
-			map<char, int> m;
-			m[b[i]]++;
-			m[b[n - 1 - i]]++;
-			m[a[i]]--;
-			m[a[n - 1 - i]]--;
-			for (auto it : m)
-				ans += (it.second > 0) ? it.second : 0;
-		}
+		ans += solve(i);
 	}
 	if (n % 2)
 		if (a[n / 2] != b[n / 2])
