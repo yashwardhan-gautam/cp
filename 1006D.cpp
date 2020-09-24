@@ -24,12 +24,13 @@ void fast()
 #endif
 }
 
+int n, ans = 0;
+string a, b;
+
 int32_t main()
 {
 	fast();
-	int n;	cin >> n;
-	int ans = 0;
-	string a, b;	cin >> n >> a >> b;
+	cin >> n >> a >> b;
 	for (int i = 0; i < n / 2; i++)
 	{
 		map<char, int> m;
