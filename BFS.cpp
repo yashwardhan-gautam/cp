@@ -67,10 +67,9 @@ void bfs_path(int dest)
 	int u = dest;
 	while (u != -1)
 	{
-		path.pb(u);
+		path.insert(path.begin(), u);
 		u = parent[u];
 	}
-	reverse(path.begin(), path.end());
 	for (auto node : path)
 		cout << node << " ";
 	cout << endl;
