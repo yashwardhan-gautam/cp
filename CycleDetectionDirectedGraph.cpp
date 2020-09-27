@@ -1,5 +1,5 @@
-#include<bits/stdc++.h>
-using namespace std;
+  = #include<bits/stdc++.h>
+    using namespace std;
 #define fi              first
 #define se              second
 #define int             long long
