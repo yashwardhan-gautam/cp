@@ -18,44 +18,40 @@ using namespace std;
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+#endif
 }
-int n, k, s;
-unordered_map<pii, bool> m;
-bool solve(int k, int sum, vector<int> &v)
-{
-	if (k == 0 and sum == 0)
-		return true;
-	if (k <= 0 or sum <= 0)
-		return false;
-	if (m.find({k, sum}) != m.end())
-		return m[ {k.sum}];
-	for (int i = 1; i <= n; i++)
-	{
-		if (v.back() != i)
-		{
-			v.pb(i);
-			if (solve(k - 1, sum - (abs(v[v.size() - 1] - v[v.size() - 2])), v))
-				return m[ {k, sum}] = 1;
-			v.pop_back();
-		}
-	}
-	return m[ {k, sum}] = 0;
-}
+
 int32_t main()
 {
 	fast();
-	cin >> n >> k >> s;
-	vector<int> v;
-	v.pb(1);
-	dp.resize(k + 1, vector<int> (s + 1, -1));
-	if (solve(k, s, v))
+	int n, k, s;	cin >> n >> k >> s;
+	if (s<k or s>(n - 1)*k)
 	{
-		cout << "YES\n";
-		for (int i = 1; i < v.size(); i++)
-			cout << v[i] << " ";
-		cout << endl;
+		cout << "NO\n";
+		return 0;
 	}
-	else
-		cout << "NO" << endl;
+	cout << "YES\n";
+	int pos = 1;
+	for (int i = k - 1; i >= 0; i--)
+	{
+		cout << i << " ";
+		int curr = min(s - i, n - 1);
+		cout << curr << " ";
+		cout << s << " ";
+		s -= curr;
+		if (pos + curr <= n)
+		{
+			pos += curr;
+			cout << pos << "\n";
+		}
+		else
+		{
+			pos -= curr;
+			cout << pos << "\n";
+		}
+	}
 	return 0;
 }
