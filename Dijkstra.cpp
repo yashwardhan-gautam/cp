@@ -56,7 +56,7 @@ void Dijsktra_pq(int src)
 	vis.resize(n, false);
 	dis.resize(n, inf);
 	dis[src] = 0; // don't mark it vis here, unlike bfs
-	priority_queue<pii, vector<pii>, less<pii>> pq;
+	priority_queue<pii, vector<pii>, greater<pii>> pq;
 	pq.push({dis[src], src});
 	while (!pq.empty())
 	{
