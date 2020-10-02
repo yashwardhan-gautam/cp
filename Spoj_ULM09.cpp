@@ -1,3 +1,4 @@
+// https://www.spoj.com/problems/ULM09/
 #include<bits/stdc++.h>
 using namespace std;
 #define fi              first
