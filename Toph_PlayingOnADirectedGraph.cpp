@@ -68,5 +68,11 @@ int32_t main()
 
 	for (int i = 1; i <= n; i++)
 		cout << ans[i] << " \n"[i == n];
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+			cout << d[i][j] << " ";
+		cout << endl;
+	}
 	return 0;
 }

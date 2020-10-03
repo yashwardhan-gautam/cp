@@ -23,11 +23,44 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+vector<int> dp(20000001, -1);
+int top_down(int n)
+{
+	if (n <= 1)
+		return dp[n] = 0;
+	if (dp[n] != -1)
+		return dp[n];
+	int op1 = INT_MAX, op2 = INT_MAX, op3 = INT_MAX;
+	if (n > 1)
+		op1 = 1 + top_down(n - 1);
+	if (n % 2 == 0)
+		op2 = 1 + top_down(n / 2);
+	if (n % 3 == 0)
+		op3 = 1 + top_down(n / 3);
+	return dp[n] = min(op1, min(op2, op3));
+}
+void bottom_up()
+{
+	dp[1] = 0, dp[0] = 0;
+	for (int i = 2; i <= 20000000; i++)
+	{
+		dp[i] = 1 + dp[i - 1];
+		if (i % 2 == 0)
+			dp[i] = min(dp[i], 1 + dp[i / 2]);
+		if (i % 3 == 0)
+			dp[i] = min(dp[i], 1 + dp[i / 3]);
+	}
+}
 int32_t main()
 {
 	fast();
-	vector<int> v = {1, 3, 2, 5, 4};
-	for (int i = 0; i < v.size() - 1; i++)
-		cout << (v[i]&v[i + 1]) << endl;
+	int test;	cin >> test;
+	int count = 1;
+	while (test--)
+	{
+		int n;	cin >> n;
+		cout << "Case " << count << ": " << top_down(n) << "\n";
+		count++;
+	}
 	return 0;
 }
