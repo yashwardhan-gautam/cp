@@ -43,7 +43,6 @@ string shortes_common_supersequence(string X, string Y)
 				dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1]);
 		}
 	}
-	int index = dp[n][m];
 	string str;
 	int i = n, j = m;
 	while (i > 0 && j > 0)
@@ -51,29 +50,29 @@ string shortes_common_supersequence(string X, string Y)
 		if (X[i - 1] == Y[j - 1])
 		{
 			str.push_back(X[i - 1]);
-			i--, j--, index--;
+			i--, j--;
 		}
 		else if (dp[i - 1][j] > dp[i][j - 1])
 		{
 			str.push_back(Y[j - 1]);
-			j--, index--;
+			j--;
 		}
 		else
 		{
 			str.push_back(X[i - 1]);
-			i--, index--;
+			i--;
 		}
 	}
 	while (i > 0)
 	{
 		str.push_back(X[i - 1]);
-		i--, index--;
+		i--;
 	}
 
 	while (j > 0)
 	{
 		str.push_back(Y[j - 1]);
-		j--, index--;
+		j--;
 	}
 	reverse(str.begin(), str.end());
 	return str;
