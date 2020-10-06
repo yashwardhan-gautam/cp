@@ -23,21 +23,29 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
+int solve(int index, int n, bool last_day_vis_or_not, vector<vector<int> > &dp)
+{
+	if (index == n)
+		return 1;
+	if (dp[index][last_day_vis_or_not] != -1)
+		return dp[index][last_day_vis_or_not] % mod;
+	if (index == 0)
+		return dp[index][last_day_vis_or_not] = (solve(1, n, true, dp) % mod + solve(1, n, false, dp) % mod) % mod;
+	if (last_day_vis_or_not)
+		return dp[index][last_day_vis_or_not] = (solve(index + 1, n, false, dp) % mod);
+	else
+		return dp[index][last_day_vis_or_not] = (solve(index + 1, n, true, dp) % mod + solve(index + 1, n, false, dp) % mod);
+}
 int32_t main()
 {
 	fast();
-	string s;	cin >> s;
-	int abf = s.find("AB");
-	int abl = s.rfind("AB");
-	int baf = s.find("BA");
-	int bal = s.rfind("BA");
-	//cout << abf << " " << abl << " " << baf << " " << bal << endl;
-	if (abf != string::npos and bal != string::npos and abf + 1 < bal )
-		cout << "YES\n";
-	else if (baf != string::npos and abl != string::npos and baf + 1 < abl)
-		cout << "YES\n";
-	else
-		cout << "NO\n";
+	int test;	cin >> test;
+	while (test--)
+	{
+		int n;	cin >> n;
+		vector<vector<int> > dp(n + 1, vector<int> (2, -1));
+		cout << solve(0, n, false, dp) % mod << endl;
+	}
 	return 0;
 }
+

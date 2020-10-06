@@ -23,21 +23,27 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
 int32_t main()
 {
-	fast();
-	string s;	cin >> s;
-	int abf = s.find("AB");
-	int abl = s.rfind("AB");
-	int baf = s.find("BA");
-	int bal = s.rfind("BA");
-	//cout << abf << " " << abl << " " << baf << " " << bal << endl;
-	if (abf != string::npos and bal != string::npos and abf + 1 < bal )
-		cout << "YES\n";
-	else if (baf != string::npos and abl != string::npos and baf + 1 < abl)
-		cout << "YES\n";
-	else
-		cout << "NO\n";
-	return 0;
+	ll n;
+	cin >> n;
+	ll arr[n + 5], dp[n + 5], temp[n + 5];
+	for (ll i = 0; i < n; i++)
+	{
+		cin >> arr[i];
+		dp[i] = 0;
+		temp[i] = 0;
+	}
+	dp[0] = 1;
+	for (ll i = 0; i < n - 1; i++)
+	{
+		if (i > 1)
+			dp[i] = (dp[i] + dp[i - 1]) % mod;
+		dp[i + 1] = (dp[i + 1] + dp[i]) % mod;
+		if (i + arr[i] + 1 < n)
+			dp[i + arr[i] + 1] = (dp[i + arr[i] + 1] - dp[i] + mod) % mod;
+	}
+	if (n >= 2)
+		dp[n - 1] = (dp[n - 1] + dp[n - 2]) % mod;
+	cout << dp[n - 1] << endl;
 }

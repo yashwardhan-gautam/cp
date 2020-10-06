@@ -28,26 +28,28 @@ int32_t main()
 {
 	fast();
 	int n;	cin >> n;
-	vector<int> v(n);
-	vector<int> count(n, 0);
-	int sum = 0;
+	vector<int> a(n);
+	int s = 0;
 	for (int i = 0; i < n; i++)
 	{
-		cin >> v[i];
-		sum += v[i];
+		cin >> a[i];
+		s += a[i];
 	}
-	if (sum % 3 != 0)
-		cout << "0\n";
-	else
+	if (s % 3 != 0)
 	{
-		sum = sum / 3;
-		int ss = 0;
-		for (int i = n - 1; i >= 0; i--)
-		{
-			ss += v[i];
-			if (ss == sum)
-				count[i] = 1;
-		}
+		cout << "0\n";
+		return 0;
 	}
+	int by3 = 0, ans = 0;
+	int sum = 0;
+	for (int i = 0; i < n - 1; i++)
+	{
+		sum += a[i];
+		if (sum == 2 * s / 3 and by3)
+			ans += by3;
+		if (sum == s / 3)
+			by3++;
+	}
+	cout << ans << endl;
 	return 0;
 }

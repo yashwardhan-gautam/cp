@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/366/C
 #include<bits/stdc++.h>
 using namespace std;
 #define fi              first

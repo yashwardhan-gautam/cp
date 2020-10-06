@@ -23,21 +23,26 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+double solve(int r, int g, vector<vector<double> > &dp)
+{
+	// Base Case
+	if (g <= 0) return 1.0;
+	// if there's no red to pull out, satyam wins
+	if (r == 0) return 1.0;
+	if (dp[r][g] != -1.0)
+		return dp[r][g];
+	return dp[r][g] = (r * 1.0 / ((r + g) * 1.0)) + (g * 1.0 / ((r + g) * 1.0)) * ((g - 1) * 1.0 / ((r + g - 1) * 1.0)) * solve(r, g - 2, dp);
 
+}
 int32_t main()
 {
 	fast();
-	string s;	cin >> s;
-	int abf = s.find("AB");
-	int abl = s.rfind("AB");
-	int baf = s.find("BA");
-	int bal = s.rfind("BA");
-	//cout << abf << " " << abl << " " << baf << " " << bal << endl;
-	if (abf != string::npos and bal != string::npos and abf + 1 < bal )
-		cout << "YES\n";
-	else if (baf != string::npos and abl != string::npos and baf + 1 < abl)
-		cout << "YES\n";
-	else
-		cout << "NO\n";
+	int test;	cin >> test;
+	while (test--)
+	{
+		int r, g;	cin >> r >> g;
+		vector<vector<double> > dp(r + 1, vector<double> (g + 1, -1.0));
+		cout << fixed << setprecision(6) << solve(r, g, dp) << endl;
+	}
 	return 0;
 }

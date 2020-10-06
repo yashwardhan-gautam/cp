@@ -26,7 +26,6 @@ void fast()
 int32_t main()
 {
 	fast();
-	int n;
 	while (!cin.eof())
 	{
 		int n;	cin >> n;
