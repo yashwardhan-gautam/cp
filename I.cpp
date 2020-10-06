@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -25,30 +25,27 @@ void fast()
 }
 int n;
 vector<double> p;
-double solve(int index, int heads_needed, vector<vector<double> > &dp)
+vector<vector<double> > dp;
+double solve(int index, int heads_needed)
 {
-	// Base case.
+	// base case
 	if (heads_needed == 0)
-		return 1;
-	if (index == 0)
-		return 0;
-
-	// If already computed before.
+		return 1.0;
+	if (index == n)
+		return 0.0;
 	if (dp[index][heads_needed] != -1.0)
 		return dp[index][heads_needed];
-
-	// Recursive case.
-	double head = p[index] * solve(index - 1, heads_needed - 1, dp);
-	double tail = (1 - p[index]) * solve(index - 1, heads_needed, dp);
-	return dp[index][heads_needed] = head + tail;
+	double op1 = p[index] * solve(index + 1, heads_needed - 1);
+	double op2 = (1 - p[index]) * solve(index + 1, heads_needed);
+	return dp[index][heads_needed] = op1 + op2;
 }
 int32_t main()
 {
 	fast();
 	cin >> n;
-	p.resize(n + 1);
-	for (int i = 1; i <= n; i++)	cin >> p[i];
-	vector<vector<double> > dp(n + 1, vector<double> (n + 1, -1.0));
-	cout << fixed << setprecision(11) << solve(n, n / 2 + 1, dp);
+	p.resize(n);
+	for (int i = 0; i < n; i++)	cin >> p[i];
+	dp.resize(n + 1, vector<double>(n + 1, -1.0));
+	cout << fixed << setprecision(11) << solve(0, n / 2 + 1);
 	return 0;
 }
