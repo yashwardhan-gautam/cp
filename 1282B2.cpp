@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -24,7 +24,6 @@ void fast()
 #endif
 }
 
-
 int32_t main()
 {
 	fast();
@@ -32,25 +31,24 @@ int32_t main()
 	while (test--)
 	{
 		int n, p, k;	cin >> n >> p >> k;
-		vector<int> arr(n + 1);
-		for (int i = 1; i <= n; i++)	cin >> arr[i];
-		sort(arr.begin(), arr.end());
-		vector<int> dp(n + 1, 0);
-		for (int i = 1; i <= n; i++)
+		vector<int> dp(n), a(n);
+		for (int i = 0; i < n; i++)	cin >> a[i];
+		sort(a.begin(), a.end());
+		dp[0] = a[0];
+		for (int i = 1; i < n; i++)
 		{
-			if (i >= k)
-				dp[i] = dp[i - k] + arr[i];
+			if (i < (k - 1))
+				dp[i] = a[i] + dp[i - 1];
+			else if (i == k - 1)
+				dp[i] = a[i];
 			else
-				dp[i] = dp[i - 1] + arr[i];
+				dp[i] = a[i] + dp[i - k];
 		}
-		//for (int i = 1; i <= n; i++)
-		//cout << dp[i] << " ";
+		//for (int i = 0; i < n; i++)	cout << dp[i] << " ";	cout << endl;
 		int ans = 0;
-		for (int i = 1; i <= n; i++)
-		{
+		for (int i = 0; i < n; i++)
 			if (dp[i] <= p)
-				ans = max(ans, i);
-		}
+				ans = i + 1;
 		cout << ans << endl;
 	}
 	return 0;
