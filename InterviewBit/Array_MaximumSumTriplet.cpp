@@ -29,25 +29,28 @@ int solve(vector<int> &A)
 	int ans = 0;
 	int n = A.size();
 	vector<int> right(n, 0);
-	for (int i = n - 2; i >= 0; i--)
-		right[i] = max(right[i + 1], A[i + 1]);
-	for (int i = 0; i < n; i++)	cout << right[i] << " ";	cout << endl;
+	for (int i = n - 2; i >= 0; i--) {
+		int mx = max(right[i + 1], A[i + 1]);
+		if (mx > A[i]) right[i] = mx;
+	}
 	set<int> s;
 	s.insert(A[0]);
-	for (int i = 1; i < n - 1; i++)
-	{
+	for (int i = 1; i < n - 1; i++) {
 		s.insert(A[i]);
-		auto itr = s.find(A[i]);
-		ans = max(ans, (A[i] + (*(--itr)) + right[i]));
+		if (right[i] != 0) {
+			auto itr = s.find(A[i]);
+			if (itr != s.begin()) {
+				ans = max(ans, (A[i] + (*(--itr)) + right[i]));
+			}
+		}
+		return ans;
 	}
-	return ans;
-}
-int32_t main()
-{
-	fast();
-	int n;	cin >> n;
-	vector<int> A(n);
-	for (int i = 0; i < n; i++)	cin >> A[i];
-	cout << solve(A) << endl;
-	return 0;
-}
+	int32_t main()
+	{
+		fast();
+		int n;	cin >> n;
+		vector<int> A(n);
+		for (int i = 0; i < n; i++)	cin >> A[i];
+		cout << solve(A) << endl;
+		return 0;
+	}

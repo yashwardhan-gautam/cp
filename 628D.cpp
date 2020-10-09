@@ -27,23 +27,6 @@ void fast()
 int32_t main()
 {
 	fast();
-	double p;
-	int n, t;	cin >> n >> p >> t;
-	double dp[t + 1][n + 1];
-	memset(dp, 0, sizeof(dp));
-	dp[0][0] = 1;
-	for (int time = 0; time < t; time++)
-	{
-		for (int people = 0; people < n; people++)
-		{
-			dp[time + 1][people] += (1 - p) * dp[time][people];
-			dp[time + 1][people + 1] += p * dp[time][people];
-		}
-		dp[time + 1][n] += dp[time][n];
-	}
-	double ans = 0.0;
-	for (int people = 0; people <= n; people++)
-		ans += dp[t][people] * people;
-	cout << fixed << setprecision(12) << ans << endl;
+
 	return 0;
 }

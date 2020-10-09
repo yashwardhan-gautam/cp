@@ -23,27 +23,44 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+int dp[ 20 ][ 4 ][ 2 ];
+int l, r;
+string s;
 
+int solve(int pos, int cnt, bool tight)
+{
+	if (pos == s.length())
+		return 1;
+	if (dp[pos][cnt][tight] != -1)
+		return dp[pos][cnt][tight];
+
+	int ans = 0;
+
+	int end = ((tight) ? (s[pos] - '0') : 9);
+	for (int i = 0; i <= end ; i++)
+	{
+		int cntupd = cnt + (i > 0);
+		if (cntupd <= 3)
+			ans += solve(pos + 1, cntupd, tight & (i == end));
+	}
+	return dp[pos][cnt][tight] = ans;
+}
 int32_t main()
 {
 	fast();
-	double p;
-	int n, t;	cin >> n >> p >> t;
-	double dp[t + 1][n + 1];
-	memset(dp, 0, sizeof(dp));
-	dp[0][0] = 1;
-	for (int time = 0; time < t; time++)
+	int t;
+	cin >> t;
+	while (t--)
 	{
-		for (int people = 0; people < n; people++)
-		{
-			dp[time + 1][people] += (1 - p) * dp[time][people];
-			dp[time + 1][people + 1] += p * dp[time][people];
-		}
-		dp[time + 1][n] += dp[time][n];
+		cin >> l >> r;
+		memset(dp, -1, sizeof(dp));
+		s = to_string(r);
+		int ans = solve(0, 0, 1);
+		l -= 1;
+		memset(dp, -1, sizeof(dp));
+		s = to_string(l);
+		ans -= solve(0, 0, 1);
+		cout << ans << endl;
 	}
-	double ans = 0.0;
-	for (int people = 0; people <= n; people++)
-		ans += dp[t][people] * people;
-	cout << fixed << setprecision(12) << ans << endl;
 	return 0;
 }

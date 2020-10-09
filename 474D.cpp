@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -23,8 +23,7 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
-int k;
+int n, k;
 vector<int> a, b;
 vector<int> dp;
 int solve(int len)
@@ -34,33 +33,31 @@ int solve(int len)
 	if (dp[len] != -1)
 		return dp[len];
 	int op1 = 0, op2 = 0;
-	op1 = solve(len - 1);
 	if (len - k >= 0)
-		op2 = solve(len - k);
+		op1 = solve(len - k);
+	op2 = solve(len - 1);
 	return dp[len] = (op1 % mod + op2 % mod) % mod;
 }
 int32_t main()
 {
 	fast();
-	int test;	cin >> test >> k;
-	a.resize(test);
-	b.resize(test);
+	cin >> n >> k;
+	a.resize(n), b.resize(n);
 	int bmax = 0;
-	for (int i = 0; i < test; i++)
+	for (int i = 0; i < n; i++)
 	{
 		cin >> a[i] >> b[i];
-		bmax = max(bmax, b[i]);
+		bmax = max(b[i], bmax);
 	}
-	bmax = bmax;
 	dp.resize(bmax + 1, -1);
 	solve(bmax);
 	vector<int> pre(dp);
 	for (int i = 1; i < pre.size(); i++)
 	{
-		pre[i] += pre[i - 1] % mod;
-		pre[i] = pre[i] % mod;
+		pre[i] += (pre[i - 1]) % mod;
+		pre[i] %= mod;
 	}
-	for (int i = 0; i < test; i++)
-		cout << (pre[b[i]] % mod - pre[a[i] - 1] % mod + mod) % mod << endl;
+	for (int i = 0; i < n; i++)
+		cout << (pre[b[i]] % mod - pre[a[i] - 1] % mod + mod) % mod << "\n";
 	return 0;
 }

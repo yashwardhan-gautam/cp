@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -23,25 +23,27 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
 int k;
 string s;
-vector<int> dp;
 int32_t main()
 {
 	fast();
 	cin >> k >> s;
-	dp.resize(s.size() + 1, 0);
-	dp[0] = 1;
-	int sum_till_now = 0;
+	vector<int> dp(s.size() + 1, 0);
 	int ans = 0;
+	int sum_till_now = 0;
+	dp[0] = 1;
 	for (int i = 0; i < s.size(); i++)
 	{
 		sum_till_now += s[i] - '0';
 		if (sum_till_now >= k)
+		{
+			// substrings seen so far with sum "sum_till_now"-substrings seen so far with sum "sum_till_now - k "
+			// = substrings seen so far with sum "k"
 			ans += dp[sum_till_now - k];
+		}
 		dp[sum_till_now]++;
 	}
-	cout << ans;
+	cout << ans << endl;
 	return 0;
 }
