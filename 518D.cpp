@@ -47,3 +47,17 @@ int32_t main()
 	cout << fixed << setprecision(12) << ans << endl;
 	return 0;
 }
+/*
+for (int i = 1; i <= t; i++)
+	{
+		for (int j = 0; j <= n; j++)
+		{
+			if (j) // if there are some persons on escalator
+				dp[i][j] += dp[i - 1][j - 1] * p;
+			if (j == n)
+				dp[i][j] += dp[i - 1][j];
+			else
+				dp[i][j] += dp[i - 1][j] * (1 - p);
+		}
+	}
+*/
