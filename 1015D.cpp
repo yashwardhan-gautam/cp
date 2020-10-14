@@ -37,20 +37,17 @@ int32_t main()
 	int pos = 1;
 	for (int i = k - 1; i >= 0; i--)
 	{
-		cout << i << " ";
 		int curr = min(s - i, n - 1);
-		cout << curr << " ";
-		cout << s << " ";
 		s -= curr;
 		if (pos + curr <= n)
 		{
 			pos += curr;
-			cout << pos << "\n";
+			cout << pos << " ";
 		}
 		else
 		{
 			pos -= curr;
-			cout << pos << "\n";
+			cout << pos << " ";
 		}
 	}
 	return 0;
