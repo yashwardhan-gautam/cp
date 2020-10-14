@@ -24,37 +24,27 @@ void fast()
 #endif
 }
 int n, m, k;
-vector<int> v;
+vi v;
 int32_t main()
 {
 	fast();
 	cin >> n >> m >> k;
 	v.resize(n);
 	for (int i = 0; i < n; i++)	cin >> v[i];
-	int count = 0;
-	int sum = 0;
-	for (int i = n - 1; i >= 0; i--)
+	int i;
+	int space = k;
+	for (i = n - 1; i >= 0; i--)
 	{
-		sum += v[i];
-		if (sum > k)
-		{
-			if (m == 0)
-			{
-				cout << count << endl;
-				return 0;
-			}
-			sum = v[i];
-			m--;
-			if (m != 0)
-				count++;
-			//cout << sum << " " << m << endl;
-		}
+		if (space >= v[i])
+			space -= v[i];
 		else
 		{
-			//cout << v[i] << "\n";
-			count++;
+			if (m == 1)
+				break;
+			m--;
+			space = k - v[i];
 		}
 	}
-	cout << count << endl;
+	cout << n - 1 - i << endl;
 	return 0;
 }
