@@ -41,6 +41,7 @@ int32_t main()
 	fast();
 	int n, m;	cin >> n >> m;
 	string s1, s2;	cin >> s1 >> s2;
+
 	while (n < m)
 		s1 = '0' + s1, n++;
 	while (m < n)
