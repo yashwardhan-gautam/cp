@@ -54,6 +54,7 @@ bool find(vector<vector<string> > cl, vector<string> shop)
 	int i = 0, j = 0;
 	for (int k = 0; k < shop.size(); k++)
 	{
+		cout << shop[k] << " " << cl[i][j] << "\n";
 		if (cl[i][j] == shop[k] or cl[i][j] == "anything")
 		{
 			j++;
@@ -75,9 +76,9 @@ int32_t main()
 	fast();
 	vector<vector<string>> codeList1 = { { "apple", "apple" }, { "banana", "anything", "banana" } };
 	vector<string> shoppingCart1 = {"orange", "apple", "apple", "banana", "orange", "banana"};
-	vector<vector<string>> codeList2 =  { { "apple", "apple" }, { "banana", "anything", "banana" } };
-	vector<string> shoppingCart2 = {"banana", "orange", "banana", "apple", "apple"};
-	cout << find(codeList1, shoppingCart1) << endl;
+	vector<vector<string>> codeList2 =  { { "apple", "banana1", "apple" }, { "banana", "anything", "banana" } };
+	vector<string> shoppingCart2 = {"apple", "banana1", "orange", "banana2", "apple", "apple"};
+	//cout << find(codeList1, shoppingCart1) << endl;
 	cout << find(codeList2, shoppingCart2) << endl;
 	return 0;
 }

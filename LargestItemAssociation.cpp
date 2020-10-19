@@ -3,45 +3,6 @@
 (e.g. Book1 is frequently ordered with Book2). All items that are linked together by an item association can be considered to be in the same group. An item without any association to any other item can be considered to be in its own item association of group size 1.
 Given the list of item association relationships (i.e. group of items likely to be ordered together), write down an algorithm that outputs the largest item association group. If two groups have the same number of items then select the group which contains the item that appears first in lexicographic order.
 */
-// DSU with elements 0,1,2....n-1
-class dsu
-{
-public:
-	vector<int> parent, rank;
-	int total_components;
-	dsu(int n)
-	{
-		parent.resize(n);
-		rank.resize(n);
-		for (int i = 0; i < n; i++)
-		{
-			parent[i] = i;
-			rank[i] = 0;
-		}
-		total_components = n;
-	}
-	int get(int a)
-	{
-		if (a == parent[a])
-			return a;
-		return parent[a] = get(parent[a]);
-	}
-	void join(int a, int b)
-	{
-		a = get(a);
-		b = get(b);
-		if (a != b)
-		{
-			if (rank[b] > rank[a])
-				swap(a, b);
-			parent[b] = a;
-			if (rank[a] == rank[b])
-				rank[a]++;
-			total_components--;
-		}
-	}
-};
-
 struct PairString {
 	string first;
 	string second;
@@ -115,14 +76,4 @@ vector <string> largestItemAssociation(vector<PairString> &itemassociation)
 		}
 	}
 	return items[lexicographic_index];
-}
-
-int32_t main()
-{
-	vector<PairString> itemassociation;
-	int n;	cin >> n;
-	for (int i = 0; i < n; i++)
-	{
-
-	}
 }
