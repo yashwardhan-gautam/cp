@@ -23,28 +23,56 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-int v[200002];
+int n, m;
+vector<vector<int> > adj;
+vector<int> a;
+vector<int> b;
+vector<bool> vis;
+int suma, sumb;
+void dfs(int node)
+{
+	vis[node] = true;
+	suma += a[node];
+	sumb += b[node];
+	for (auto child : adj[node])
+		if (!vis[child])
+			dfs(child);
+}
+bool solve()
+{
+	for (int i = 0; i < n; i++)
+	{
+		if (!vis[i])
+		{
+			suma = 0, sumb = 0;
+			dfs(i);
+			//cout << suma << " " << sumb << endl;
+			if (suma != sumb)
+				return false;
+		}
+	}
+	return true;
+}
 int32_t main()
 {
 	fast();
-	int q; cin >> q;
-	int l = 0, r = 0;
-	char ch;	int id;
-	cin >> ch >> id;
-	v[id] = 0;
-	q--;
-	while (q--)
+	cin >> n >> m;
+	adj.resize(n + 1);
+	a.resize(n), b.resize(n);
+	for (int i = 0; i < n; i++)	cin >> a[i];
+	for (int j = 0; j < n; j++)	cin >> b[j];
+	for (int i = 0; i < m; i++)
 	{
-		cin >> ch >> id;
-		if (ch == 'L')
-			v[id] = --l;
-		else if (ch == 'R')
-			v[id] = ++r;
-		else
-		{
-			cout << v[id] << " " << (v[id] - l) << " " << r - v[id] << endl;
-			cout << min(v[id] - l, r - v[id]) << endl;
-		}
+		int u, v;
+		cin >> u >> v;
+		u--, v--;
+		adj[u].pb(v);
+		adj[v].pb(u);
 	}
+	vis.resize(n + 1, false);
+	if (solve())
+		cout << "Yes\n";
+	else
+		cout << "No\n";
 	return 0;
 }

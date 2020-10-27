@@ -23,28 +23,23 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-int v[200002];
+
 int32_t main()
 {
 	fast();
-	int q; cin >> q;
-	int l = 0, r = 0;
-	char ch;	int id;
-	cin >> ch >> id;
-	v[id] = 0;
-	q--;
-	while (q--)
+	int n;	cin >> n;
+	vector<int> arr(n);
+	for (int i = 0; i < n; i++)	cin >> arr[i];
+	int count = 1;
+	int ans = 1;
+	for (int i = 1; i < n; i++)
 	{
-		cin >> ch >> id;
-		if (ch == 'L')
-			v[id] = --l;
-		else if (ch == 'R')
-			v[id] = ++r;
+		if (arr[i] > arr[i - 1])
+			count++;
 		else
-		{
-			cout << v[id] << " " << (v[id] - l) << " " << r - v[id] << endl;
-			cout << min(v[id] - l, r - v[id]) << endl;
-		}
+			count = 1;
+		ans = max(ans, count);
 	}
+	cout << ans << endl;
 	return 0;
 }
