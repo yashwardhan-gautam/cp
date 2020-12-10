@@ -48,3 +48,5 @@ int32_t main()
 	}
 	return 0;
 }
+// TC - O(n^2)
+// SC - O(1)
