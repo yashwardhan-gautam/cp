@@ -23,7 +23,11 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
+void print(vector<int> arr)
+{
+	for (auto it : arr) cout << it << " ";
+	cout << endl;
+}
 int32_t main()
 {
 	fast();
@@ -40,8 +44,7 @@ int32_t main()
 			j--;
 		}
 		arr[j + 1] = key;
+		print(arr);
 	}
-	for (auto it : arr) cout << it << " ";
-	cout << endl;
 	return 0;
 }
