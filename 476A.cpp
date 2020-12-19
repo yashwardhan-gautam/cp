@@ -23,26 +23,25 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-int a, b, c;
-vector<int> dp;
-int solve(int n)
+int solve(int n, int m)
 {
-	if (n == 0) return 0;
-	if (dp[n] != -1) return dp[n];
-	int op1 = INT_MIN, op2 = INT_MIN, op3 = INT_MIN;
-	if (n - a >= 0)
-		op1 = solve(n - a);
-	if (n - b >= 0)
-		op2 = solve(n - b);
-	if (n - c >= 0)
-		op3 = solve(n - c);
-	return dp[n] = 1 + max(op1, max(op2, op3));
+	if (n < m)
+		return -1;
+	if (n == m) return n;
+	for (int a = n / 2 + 1; a >= 1; a--)
+	{
+		if ((n - a) % m == 0 and (n - 2 * a >= 0))
+		{
+			//cout << a << "\n";
+			return (n - a);
+		}
+	}
+	return -1;
 }
 int32_t main()
 {
 	fast();
-	int n;	cin >> n >> a >> b >> c;
-	dp.resize(n + 1, -1);
-	cout << solve(n) ;
+	int n, m;	cin >> n >> m;
+	cout << solve(n, m);
 	return 0;
 }
