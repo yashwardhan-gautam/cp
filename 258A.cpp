@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define ff              first
-#define ss              second
+#define fi              first
+#define se              second
 #define int             long long
 #define pb              push_back
 #define mp              make_pair
@@ -14,42 +14,32 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+#endif
 }
-#define limit 1000000
-int prime[limit];
-void is_prime()
-{
-	prime[0] = prime[1] = 1;
-	for (int i = 2; i < limit; i++)
-	{
-		if (prime[i] == 0)
-		{
-			for (int j = i * i; j < limit; j += i)
-				prime[j] = 1;
-		}
-	}
-}
-bool solve(int n)
-{
-	double sq = sqrt(n);
-	if (sq == (int) sq)
-		return true;
-	return false;
-}
+
 int32_t main()
 {
-	is_prime();
-	int test;	cin >> test;
-	while (test--)
+	fast();
+	string s;	cin >> s;
+	int idx = -1;
+	for (int i = 0; i < s.size(); i++)
 	{
-		int n;	cin >> n;
-		if (n == 4)	cout << "YES\n";
-		else if (n % 2 == 0)	cout << "NO\n";
-		else if (solve(n) and prime[(int)(sqrt(n))] == 0)	cout << "YES\n";
-		else 	cout << "NO\n";
+		if (s[i] == '0')
+		{
+			idx = i;
+			break;
+		}
 	}
+	if (idx == -1)
+		idx = 0;
+	s.erase(s.begin() + idx);
+	cout << s;
 	return 0;
 }

@@ -23,26 +23,40 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+vector<vector<int> > adj;
 vector<bool> vis;
-vector<int> x, y;
-void dfs(int i)
+int ans = 0;
+int dfs(int node)
 {
-	vis[i] = true;
-	for (int j = 0; j < x.size(); j++)
-		if (i != j and (x[i] == x[j] or y[i] == y[j]) and !vis[j])
-			dfs(j);
+	int temp_ans = 0;
+	vis[node] = true;
+	for (auto child : adj[node])
+	{
+		if (!vis[child])
+		{
+			temp_ans = max(temp_ans, dfs(child));
+		}
+	}
+	return temp_ans + 1;
 }
 int32_t main()
 {
 	fast();
 	int n;	cin >> n;
-	vis.resize(n, false);
-	x.resize(n), y.resize(n);
-	for (int i = 0; i < n; i++)	cin >> x[i] >> y[i];
+	adj.resize(n + 1);
+	vis.resize(n + 1, false);
+	for (int i = 1; i <= n; i++)
+	{
+		int p;	cin >> p;
+		if (p != -1)
+			adj[p].pb(i);
+	}
 	int count = 0;
-	for (int i = 0; i < n; i++)
-		if (!vis[i])
-			count++, dfs(i);
-	cout << count - 1 ;
+	for (int i = 1; i <= n; i++)
+	{
+		fill(vis.begin(), vis.end(), false);
+		ans = max(ans, dfs(i));
+	}
+	cout << ans;
 	return 0;
 }

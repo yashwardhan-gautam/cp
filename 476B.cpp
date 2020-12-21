@@ -23,26 +23,45 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-vector<bool> vis;
-vector<int> x, y;
-void dfs(int i)
-{
-	vis[i] = true;
-	for (int j = 0; j < x.size(); j++)
-		if (i != j and (x[i] == x[j] or y[i] == y[j]) and !vis[j])
-			dfs(j);
-}
+
 int32_t main()
 {
 	fast();
-	int n;	cin >> n;
-	vis.resize(n, false);
-	x.resize(n), y.resize(n);
-	for (int i = 0; i < n; i++)	cin >> x[i] >> y[i];
-	int count = 0;
-	for (int i = 0; i < n; i++)
-		if (!vis[i])
-			count++, dfs(i);
-	cout << count - 1 ;
+	string s;	cin >> s;
+	int f = 0;
+	for (int i = 0; i < s.size(); i++)
+	{
+		if (s[i] == '+')	f++;
+		else 					f--;
+	}
+	cin >> s;
+	unordered_map<int, double> fm;
+	fm[0] = 1.0;
+	for (int i = 0; i < s.size(); i++)
+	{
+		unordered_map<int, double> m;
+		if (s[i] == '+')
+		{
+			for (auto it : fm)
+				m[it.fi + 1] = it.se;
+		}
+		else if (s[i] == '-')
+		{
+			for (auto it : fm)
+				m[it.fi - 1] = it.se;
+		}
+		else
+		{
+			for (auto it : fm)
+			{
+				m[it.fi + 1] += it.se * 0.5;
+				m[it.fi - 1] += it.se * 0.5;
+			}
+		}
+		fm.clear();
+		for (auto it : m)
+			fm[it.fi] = it.se;
+	}
+	cout << fixed << setprecision(12) << fm[f] << endl;
 	return 0;
 }
