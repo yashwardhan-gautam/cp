@@ -37,6 +37,7 @@ void build(int s, int e, int node)
 	// the call on left and right will be 2*node,2*node+1 respectively.
 	build(s, mid, 2 * node + 1);
 	build(mid + 1, e, 2 * node + 2);
+
 	tree[node] = tree[2 * node + 1] + tree[2 * node + 2];
 }
 int query(int s, int e, int node, int l, int r)
@@ -73,6 +74,7 @@ void update(int s, int e, int node, int index, int val)
 	// if the index is on right
 	else
 		update(mid + 1, e, 2 * node + 2, index, val);
+
 	tree[node] = tree[2 * node + 1] + tree[2 * node + 2];
 }
 int32_t main()
