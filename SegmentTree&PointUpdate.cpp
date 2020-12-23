@@ -40,24 +40,26 @@ void build(int s, int e, int node)
 
 	tree[node] = tree[2 * node + 1] + tree[2 * node + 2];
 }
-int query(int s, int e, int node, int l, int r)
+// Finds the sum of elements in range qs to qe
+int query(int s, int e, int node, int qs, int qe)
 {
 	// NO OVERLAP[when the range of node does not overlap with the query]
-	// ******* -------  *******  (- is query, * is segment range)
-	// s     e l     r  s     e
-	if (s > e or e<l or s>r)
+	// ******* --------  *******  (- is query, * is segment range)
+	// s     e qs    qe  s     e
+	if (s > e or e<qs or s>qe)
 		return 0;
 	// COMPLETE OVERLAP
-	// --------- (l to r)
+	// --------- (qs to qe)
 	//   *****   (s to e)  [when range of node is completely inside query]
-	if (s >= l and e <= r)
+	if (s >= qs and e <= qe)
 		return tree[node];
 	// PARTIAL OVERLAP
 	// -------         --------- (l to r)
 	// 	 ******** 	*******      (s to e) [when the range of node is partially inside the query]
 	int mid = (s + e) >> 1;
-	return query(s, mid, 2 * node + 1, l, r) + query(mid + 1, e, 2 * node + 2, l, r);
+	return query(s, mid, 2 * node + 1, qs, qe) + query(mid + 1, e, 2 * node + 2, qs, qe);
 }
+// Point Update
 void update(int s, int e, int node, int index, int val)
 {
 	// finding the index
