@@ -15,6 +15,7 @@ using namespace std;
 #define mod             1000000007
 #define inf             1e18
 #define endl		 	      "\n"
+#define ll int
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -27,25 +28,28 @@ void fast()
 int32_t main()
 {
 	fast();
-	int n;	cin >> n;
-	vi v(n);
-	for (int i = 0; i < n; i++)	cin >> v[i];
-	unordered_set<int> s;
-	s.insert(0);
-	int count = 0;
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		sum += v[i];
-		if (s.find(sum) != s.end())
-		{
-			count++;
-			s.clear();
-			s.insert(0);
-			sum = v[i];
+	int t;
+	cin >> t;
+
+	while (t--) {
+		ll n;
+		cin >> n;
+		if (n == 1) {
+			cout << 0 << endl;
 		}
-		s.insert(sum);
+		else {
+			ll ans = n + 1;
+			int t;
+			for (ll i = 1; i <= 100000; i++) {
+				if (i + (n - 1) / (i + 1) < ans)
+				{
+					ans = i + (n - 1) / (i + 1);
+					t = i;
+				}
+				//ans = min(ans, i + (n - 1) / (i + 1));
+			}
+			cout << t << " " << ans << endl;
+		}
 	}
-	cout << count;
 	return 0;
 }
