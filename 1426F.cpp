@@ -34,19 +34,20 @@ int32_t main()
 	for (int i = 0; i < n; i++)
 	{
 		if (s[i] == 'c')
-			c += b;
+			c = (c + b) % mod;
 		else if (s[i] == 'b')
-			b += a;
+			b = (b + a) % mod;
 		else if (s[i] == 'a')
-			a += mul;
+			a = (a + mul) % mod;
 		else
 		{
-			c = c * 3 + b;
-			b = b * 3 + a;
-			a = a * 3 + mul;
+			c = (c * 3 + b) % mod;
+			b = (b * 3 + a) % mod;
+			a = (a * 3 + mul) % mod;
 			mul *= 3;
+			mul %= mod;
 		}
 	}
-	cout << c << endl;
+	cout << c % mod << endl;
 	return 0;
 }
