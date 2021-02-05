@@ -18,7 +18,7 @@ using namespace std;
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#ifndef ONLINE_JUDGE
+#ifndef ONLINE_JUDGEki
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif

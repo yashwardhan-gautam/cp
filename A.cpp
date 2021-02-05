@@ -14,7 +14,7 @@ using namespace std;
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007
 #define inf             1e18
-#define endl			"\n"
+#define endl		 	      "\n"
 void fast()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -23,27 +23,28 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-
-
+int n;
+vector<int> h;
+vector<int> dp;
+int solve(int i)
+{
+	if (i == n - 1)
+		return 0;
+	if (dp[i] != -1)
+		return dp[i];
+	int ans = INT_MAX;
+	ans = min(ans, abs(h[i] - h[i + 1]) + solve(i + 1));
+	if (i + 2 < n)
+		ans = min(ans, abs(h[i] - h[i + 2]) + solve(i + 2));
+	return dp[i] = ans;
+}
 int32_t main()
 {
 	fast();
-	int n, k;	cin >> n >> k;
-	vector<int> h(n);
+	cin >> n;
+	h.resize(n);
+	dp.resize(n, -1);
 	for (int i = 0; i < n; i++)	cin >> h[i];
-
-	vector<int> dp(n, 0);
-	for (int i = 1; i < n; i++)
-	{
-		if (i == 1)
-			dp[i] = abs(h[i] - h[0]);
-		else
-		{
-			dp[i] = INT_MAX;
-			for (int j = 1; j <= k and i - j >= 0; j++)
-				dp[i] = min(dp[i], abs(h[i] - h[i - j]) + dp[i - j]);
-		}
-	}
-	cout << dp[n - 1];
+	cout << solve(0);
 	return 0;
 }
