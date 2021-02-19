@@ -30,6 +30,7 @@ bool solve(int n)
 		int t = n - 2020 * i;
 		if (t >= 0 and t % 2021 == 0)
 		{
+			//cout << i << " " << t / 2021 << endl;
 			return true;
 		}
 	}

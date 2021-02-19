@@ -1,52 +1,55 @@
-sd = socket(AF_INET, SOCK_DGRAM, 0);
-if (sd < 0)
+#include<bits/stdc++.h>
+using namespace std;
+#define fi              first
+#define se              second
+#define int             long long
+#define pb              push_back
+#define mp              make_pair
+#define pii             pair<int,int>
+#define vi              vector<int>
+#define mii             map<int,int>
+#define pqb             priority_queue<int>
+#define pqs             priority_queue<int,vi,greater<int> >
+#define setbits(x)      __builtin_popcountll(x)
+#define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
+#define inf             1e18
+#define endl		 	      "\n"
+void fast()
 {
-	perror("Opening datagram socket error");
-	exit(1);
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+#endif
 }
-else
-	printf("Opening datagram socket....OK.\n");
-int reuse = 1;
-if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse)) < 0)
+int solve()
 {
-	perror("Setting SO_REUSEADDR error");
-	close(sd);
-	exit(1);
+	int n, m, k;	cin >> n >> m >> k;
+	vector<pii> v(k);
+	vector<int> d1(n + 1, 0), d2(m + 1, 0);
+	for (int i = 0; i < k; i++)
+	{
+		cin >> v[i].fi;
+		d1[v[i].fi]++;
+	}
+	for (int i = 0; i < k; i++)
+	{
+		cin >> v[i].se;
+		d2[v[i].se]++;
+	}
+	int ans = (k * (k - 1)) >> 1;
+	for (int i = 1; i <= n; i++)
+		ans -= (d1[i] * (d1[i] - 1)) >> 1;
+	for (int i = 1; i <= m; i++)
+		ans -= (d2[i] * (d2[i] - 1)) >> 1;
+	return ans;
 }
-else
-	printf("Setting SO_REUSEADDR...OK.\n");
-memset((char *) &localSock, 0, sizeof(localSock));
-localSock.sin_family = AF_INET;
-localSock.sin_port = htons(4321);
-localSock.sin_addr.s_addr = INADDR_ANY;
-if (bind(sd, (struct sockaddr*)&localSock, sizeof(localSock)))
+int32_t main()
 {
-	perror("Binding datagram socket error");
-	close(sd);
-	exit(1);
+	fast();
+	int test;	cin >> test;
+	while (test--)
+		cout << solve() << endl;
+	return 0;
 }
-else
-	printf("Binding datagram socket...OK.\n");
-group.imr_multiaddr.s_addr = inet_addr("226.1.1.1");
-group.imr_interface.s_addr = inet_addr("203.106.93.94");
-if (setsockopt(sd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&group, sizeof(group)) < 0)
-{
-	perror("Adding multicast group error");
-	close(sd);
-	exit(1);
-}
-else
-	printf("Adding multicast group...OK.\n");
-datalen = sizeof(databuf);
-if (read(sd, databuf, datalen) < 0)
-{
-	perror("Reading datagram message error");
-	close(sd);
-	exit(1);
-}
-else
-{
-	printf("Reading datagram message...OK.\n");
-	printf("The message from multicast server is: \"%s\"\n", databuf);
-}
-return 0;
