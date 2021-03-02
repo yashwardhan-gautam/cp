@@ -23,67 +23,48 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
-int n;
-bool flip(vector<vector<int> > a, vector<vector<int> > b)
+int ncr(int n, int r, int p)
 {
-	// first do all the vertical flips
-	for (int j = 0; j < n; j++)
+	vector<int> c(r + 1, 0);
+	c[0] = 1;
+	for (int i = 1; i <= n; i++)
 	{
-		if (a[0][j] != b[0][j])
+		for (int j = min(i, r); j > 0; j--)
 		{
-			for (int i = 0; i < n; i++)
-				a[i][j] = (a[i][j] ^ 1);
+			c[j] = (c[j] + c[j - 1]) % p;
 		}
 	}
-	// let's check horizontal flips
-	for (int i = 0; i < n; i++)
-	{
-		if (a[i][0] != b[i][0])
-		{
-			for (int j = 0; j < n; j++)
-				a[i][j] = (a[i][j] ^ 1);
-		}
-	}
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			if (a[i][j] != b[i][j])
-			{
-				return false;
-			}
-		}
-	}
-	return true;
+	return c[r];
 }
-void solve()
+int solve()
 {
-	cin >> n;
-	vector<vector<int> > a(n, vector<int> (n)), b(n, vector<int> (n));
+	int n, k;	cin >> n >> k;
+	map<int, int> m;
 	for (int i = 0; i < n; i++)
 	{
-		string s;	cin >> s;
-		for (int j = 0; j < s.size(); j++)
-			a[i][j] = s[j] - '0';
+		int x;	cin >> x;
+		m[x]++;
 	}
-	for (int i = 0; i < n; i++)
+	vector<pii> v;
+	for (auto it : m)
+		v.pb({it.fi, it.se});
+	sort(v.rbegin(), v.rend());
+	for (int i = 0; i < v.size(); i++)
 	{
-		string s;	cin >> s;
-		for (int j = 0; j < s.size(); j++)
-			b[i][j] = s[j] - '0';
+		if (k - v[i].se <= 0)
+		{
+			//cout << v[i].se << " " << k << "\n";
+			return ncr(v[i].se, k, mod);
+		}
+		k -= v[i].se;
 	}
-	vector<vector<int> > c(a);
-	for (int j = 0; j < n; j++)	c[0][j] ^= 1;
-	if (flip(a, b) or flip(c, b))
-		cout << "YES\n";
-	else
-		cout << "NO\n";
+	return 1;
 }
 int32_t main()
 {
 	fast();
 	int test;	cin >> test;
 	while (test--)
-		solve();
+		cout << solve() << endl;
 	return 0;
 }
