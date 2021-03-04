@@ -72,9 +72,7 @@ void solve()
 		for (int j = 0; j < s.size(); j++)
 			b[i][j] = s[j] - '0';
 	}
-	vector<vector<int> > c(a);
-	for (int j = 0; j < n; j++)	c[0][j] ^= 1;
-	if (flip(a, b) or flip(c, b))
+	if (flip(a, b))
 		cout << "YES\n";
 	else
 		cout << "NO\n";
