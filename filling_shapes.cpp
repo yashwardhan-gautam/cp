@@ -23,16 +23,21 @@ void fast()
     freopen("output.txt", "w", stdout);
 	#endif
 }
-int solve(int n)
-{
-	if(n&1) 	
-		return 0;
-	return pow(2,n/2);
+int solve(int n) {
+	if (n==0) return 1;
+	return 2*solve(n-2);
 }
 int32_t main()
 {
 	fast();
-	int n;	cin>>n;
-	// if there are odd number of columns, we can't fill them up
-	cout<<solve(n);
-}	
+	// rectangle can't be filled if the number of rows are odd
+	// there are two ways to fill two consecutive columns : 
+	// **    **
+	// -* or *-
+	// --    --
+	int  n;	cin>>n;
+	if(n&1) 
+		cout<<"0";
+	else 
+		cout << solve(n);
+}
