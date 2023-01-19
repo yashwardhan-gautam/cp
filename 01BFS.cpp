@@ -23,6 +23,7 @@ void fast()
 	freopen("output.txt", "w", stdout);
 #endif
 }
+
 int n, m;
 vector<vector<pii> > adj;
 void BFS01(int s)
