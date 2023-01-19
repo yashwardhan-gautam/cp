@@ -47,7 +47,6 @@ int32_t main()
 			s = '0' + s;
 		}
 	}
-	//cout << s << " " << z << " " << o << endl;
 	for (int i = 0; i < s.size(); i++)
 	{
 		cout << s[i];
